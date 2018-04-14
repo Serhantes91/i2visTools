@@ -1,0 +1,80 @@
+﻿<Window x:Class="I2VISTools.Windows.FilesViewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ucc="clr-namespace:I2VISTools.BindingConverters"
+        x:Name="ViewWindow"
+        Title="Просмотр файлов" Height="363" Width="508" Loaded="Window_Loaded" Closing="ViewWindow_Closing" Icon="../Images/filesview_small.png" >
+
+    <Window.Resources>
+        <ucc:UpCatalogConverer x:Key="UpCatalogConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="30" />
+                <ColumnDefinition Width="30" />
+            </Grid.ColumnDefinitions>
+            <Label x:Name="CurrentDirectoryLabel" Margin="5" />
+            <!--<Button x:Name="UploadButton" HorizontalAlignment="Right" Width="20" Height="20" Grid.Column="1" Content="↓" ToolTip="Закачать файлы с компьютера" Click="UploadButton_OnClick" />-->
+            <Button x:Name="RefreshButton" Width="20" Height="20" Grid.Column="2" Content="⟳" ToolTip="Обновить" Click="RefreshButton_Click" />
+        </Grid>
+        
+        <!--<ListBox x:Name="FilesListView" Grid.Row="1" SelectionMode="Single" Margin="5" >
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <EventSetter Event="MouseDoubleClick" Handler="EventSetter_OnHandler"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>-->
+        
+        <!--<ListView x:Name="FilesListView" Grid.Row="1" SelectionMode="Single" Margin="5" ></ListView>-->
+        <DataGrid x:Name="FilesListView" Grid.Row="1" SelectionMode="Extended" Margin="5" BorderThickness="0" GridLinesVisibility="None" IsReadOnly="True" MaxHeight="800" AutoGenerateColumns="False" SelectionUnit="FullRow" Background="White" HeadersVisibility="Column" Sorting="FilesListView_OnSorting" SelectionChanged="FilesListView_SelectionChanged" Drop="FilesListView_OnDrop" AllowDrop="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Имя файла" Width="200" Binding="{Binding Path=Name, Converter={StaticResource UpCatalogConverter}}" />
+                <DataGridTextColumn Header="Размер" Width="80" Binding="{Binding Path=Size, Converter={StaticResource UpCatalogConverter} }" />
+                <DataGridTextColumn Header="Последнее изменение" Binding="{Binding Path=ModificationDate, Converter={StaticResource UpCatalogConverter}}" />
+                <DataGridTextColumn Header="Тип" Binding="{Binding Mode=OneWay, Path=Extension, Converter={StaticResource UpCatalogConverter}}" />
+            </DataGrid.Columns>
+            <DataGrid.ItemContainerStyle>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="EventSetter_OnHandler" />
+                    <EventSetter x:Name="RightButtonUp" Event="MouseRightButtonUp" Handler="RightButtonUp" />
+                </Style>
+            </DataGrid.ItemContainerStyle>
+        </DataGrid>
+        
+        <ProgressBar Grid.Row="1" Height="20" Width="200" IsIndeterminate="True" x:Name="LoadingBar" />
+
+        <StatusBar Grid.Row="2" Height="25" VerticalAlignment="Bottom" >
+            <StatusBarItem>
+                <Grid Width="150" Height="20" Margin="5,0,0,0">
+                    <ProgressBar x:Name="DownloadProgressBar"  Visibility="Collapsed" />
+                    <Label x:Name="DownloadingFileLabel" Padding="0,0,0,0" HorizontalContentAlignment="Center"  />
+                </Grid>
+            </StatusBarItem>
+            <StatusBarItem>
+                <Label x:Name="FilesStateLabel" Padding="0,0,0,0" />
+            </StatusBarItem>
+            <StatusBarItem>
+                <Label x:Name="LoadSpeedLabel" Padding="0" />
+            </StatusBarItem>
+            
+            <StatusBarItem HorizontalAlignment="Right" >
+                <Label x:Name="FileSelectedLabel" Padding="0,0,0,0" />
+            </StatusBarItem>
+        </StatusBar>
+        
+        
+        
+
+    </Grid>
+</Window>

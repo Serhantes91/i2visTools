@@ -1,0 +1,66 @@
+﻿<Window x:Class="I2VISTools.Windows.UserCInfigWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:cc="clr-namespace:I2VISTools.CustomControls"
+        Title="Настройки пользователя" Height="470" Width="538" WindowStyle="ToolWindow" ResizeMode="NoResize">
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        
+        <GroupBox x:Name="ClusterBox" Header="Суперкомпьютер" >
+            <Grid Margin="5" >
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+            
+                <cc:LabeledTextBox x:Name="HostBox" Title="Хост" HorizontalTitleAlignment="Center" Margin="3" Text="lomonosov.parallel.ru"  />
+                <cc:LabeledTextBox Grid.Row="0" Grid.Column="1" x:Name="PortBox" Title="Порт" HorizontalTitleAlignment="Center" Margin="3" Width="80" Text="22" />
+                <cc:LabeledTextBox Grid.Row="1" Grid.Column="0" x:Name="UserBox" Title="Пользователь" HorizontalTitleAlignment="Center" Margin="3" />
+                <cc:PathBrowser x:Name="KeyFilePathBox" Grid.Row="1" Grid.Column="1" Title="Путь к key-файлу" Margin="3" />
+                
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" Margin="3">
+                    <Label Content="Пароль к key-файлу" HorizontalContentAlignment="Center" />
+                    <PasswordBox x:Name="PassphraseBox"  />
+                </StackPanel>
+                
+                <cc:LabeledTextBox x:Name="ClusterWorkingDirectoryBox" Grid.Row="2" Grid.Column="0" Title="Рабочая директория" Margin="3" HorizontalTitleAlignment="Center" Text="collision/" /> 
+                
+            </Grid>
+        </GroupBox>
+        
+        <GroupBox Grid.Row="1" Header="Локальные данные" >
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
+                <cc:PathBrowser x:Name="LocalDirectoryPath" Margin="3" DialogTargetType="Folder" Title="Локальная рабочая директория" />
+                <cc:PathBrowser Grid.Row="0" Grid.Column="1" x:Name="DiaryPath" Margin="3" Title="Путь к дневнику" />
+                <cc:LabeledTextBox Grid.Row="1" Grid.Column="0" Title="Адрес сервера-хранилища" Margin="3" HorizontalTitleAlignment="Center" />
+            </Grid>
+        </GroupBox>
+        
+        <StackPanel Grid.Row="2" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button x:Name="ApplyButton" Width="70" Height="30" Margin="5" Content="Применить" Click="ApplyButton_OnClick" />
+            <Button x:Name="OkButton" Width="140" Height="30" Content="Применить и сохранить" Margin="5" Click="OKButton_OnClick" />
+        </StackPanel>
+        
+        
+        
+    </Grid>
+</Window>

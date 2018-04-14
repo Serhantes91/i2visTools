@@ -1,0 +1,36 @@
+﻿<Window x:Class="I2VISTools.Windows.UpdateTaksWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:customControls="clr-namespace:I2VISTools.CustomControls"
+        Title="Перезапуск задачи" Height="310" Width="408" WindowStyle="ToolWindow" ResizeMode="NoResize" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel Orientation="Vertical" Grid.ColumnSpan="2" >
+            <Label Content="Ваши папки (задачи) :" HorizontalContentAlignment="Center" />
+            <ListBox x:Name="TasksListBox" Margin="5" SelectionMode="Multiple" MaxHeight="150" />
+            <Label Content="Выделите перезапускаемые задачи и нажмите &quot;Перезапуск&quot;" HorizontalContentAlignment="Center" />
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+            <StackPanel  Orientation="Vertical" Margin="5">
+                <Label Content="Раздел:" HorizontalContentAlignment="Center" />
+                <ComboBox x:Name="PartBox" Width="100" SelectedIndex="0" />
+            </StackPanel>
+            
+            <customControls:LabeledTextBox x:Name="TimeBox" HorizontalTitleAlignment="Center" Title="Время (мин)" Width="80" TextBoxWidth="50" Margin="0,5" Text="4320"  />
+            
+        </StackPanel>
+        
+        
+        <Button x:Name="UpdateTaskButton" Width="100" Height="30" Grid.Row="1" Grid.Column="1" Content="Перезапуск" Click="UpdateTaskButton_Click" />
+    </Grid>
+</Window>

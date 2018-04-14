@@ -1,0 +1,16 @@
+﻿<Window x:Class="I2VISTools.Windows.ModelNameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Новое имя" Height="135" Width="160" ResizeMode="NoResize" WindowStyle="ToolWindow" Loaded="ModelNameWindow_OnLoaded">
+    <Grid Background="#2E000000">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <TextBox Name="InputTextBox" Width="100" Height="25" />
+        
+        <Button Grid.Row="1" Width="80" Height="30" Content="OK" Name="OkButton" HorizontalAlignment="Right" Margin="0,0,10,0" Click="OkButton_Click" />
+        
+    </Grid>
+</Window>

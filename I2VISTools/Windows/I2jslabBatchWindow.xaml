@@ -1,0 +1,63 @@
+﻿<Window x:Class="I2VISTools.Windows.I2JslabBatchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:customControls="clr-namespace:I2VISTools.CustomControls"
+        Title="Получить TXT из PRN" Height="454" Width="400" ResizeMode="NoResize" WindowStyle="ToolWindow" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="70" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Vertical" Grid.ColumnSpan="2" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                
+                <Label Content="Ваши папки (задачи) :" HorizontalContentAlignment="Center" />
+                <ListBox Grid.Row="1" Grid.Column="0" x:Name="TasksListBox" Margin="5" SelectionMode="Single" MaxHeight="170" SelectionChanged="TasksListBox_OnSelectionChanged" />
+                
+                <Label Grid.Row="0" Grid.Column="1" Content="Найденные prn:" HorizontalContentAlignment="Center" />
+                <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1">
+                    <ListBox  x:Name="PrnListBox" Margin="5" SelectionMode="Extended" MaxHeight="170" />
+                    <Button Width="140" x:Name="SelectDecPrnButton" Content="Выбрать все кратные 10" Click="SelectDecPrn_OnClick" IsEnabled="False" />
+                </StackPanel>
+                
+                
+            </Grid>
+
+            <Label Content="Выберите папку, откуда хотите получить TXT, выделите &#x0a;нужные PRN и нажмите &quot;Запуск&quot;" HorizontalContentAlignment="Center" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+            
+            <GroupBox Header="Раздел" Margin="5">
+                <StackPanel Orientation="Vertical" Width="100" >
+                    <RadioButton x:Name="TestRb" Content="test" IsChecked="True"/>
+                    <RadioButton x:Name="GpuTestRb" Content="gputest" />
+                </StackPanel>
+            </GroupBox>
+            
+            <Button Width="50" Height="20" Content="amir.t3c" x:Name="AmirButton" Click="AmirButton_OnClick" />
+
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" >
+           <Button x:Name="StartTaskButton" Width="100" Height="30"  Content="Запуск" Click="StartTaskButton_Click" Margin="5" />
+            <!--<CheckBox x:Name="DownloadCb" Content="Скачать полученные TXT" Margin="5" />-->
+        </StackPanel>
+        
+    </Grid>
+</Window>

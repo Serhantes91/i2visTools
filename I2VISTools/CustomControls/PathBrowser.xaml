@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="I2VISTools.CustomControls.PathBrowser"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+              >
+ 
+        <StackPanel x:Name="OutterStack" Orientation="Vertical" >
+            <Label x:Name="TitleLabel" Content="Путь к файлу" HorizontalContentAlignment="Center" />
+            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+                
+                <TextBox Name="PathTextBox"  />
+                <Button Grid.Column="1" x:Name="BrowseButon" Width="20" Content="..." Click="BrowseButon_Click" />
+            </Grid>
+            
+        </StackPanel>
+        
+</UserControl>

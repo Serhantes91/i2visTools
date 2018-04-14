@@ -1,0 +1,19 @@
+﻿<Window x:Class="I2VISTools.Windows.NewPolygonWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Добавить новый четырехугольник" Height="300" Width="477" WindowStyle="ToolWindow" Background="#FFDEDEDE" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <TextBox Width="120" Height="20" x:Name="RockIndexBox" />
+        
+    </Grid>
+</Window>

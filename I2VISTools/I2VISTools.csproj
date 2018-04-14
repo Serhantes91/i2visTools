@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{23ACAA86-A14B-4D22-8451-BF5EED617A6B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>I2VISTools</RootNamespace>
+    <AssemblyName>I2VISTools</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>i2vIcon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>libs\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics, Version=3.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>libs\MathNet.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot">
+      <HintPath>..\packages\OxyPlot.Core.2014.1.546\lib\portable-net4+sl4+wp71+win8\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf">
+      <HintPath>..\packages\OxyPlot.Wpf.2014.1.546\lib\net40\OxyPlot.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Xps">
+      <HintPath>..\packages\OxyPlot.Wpf.2014.1.546\lib\net40\OxyPlot.Xps.dll</HintPath>
+    </Reference>
+    <Reference Include="Renci.SshNet">
+      <HintPath>libs\Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="RibbonControlsLibrary" />
+    <Reference Include="Microsoft.Windows.Shell" />
+    <Reference Include="WriteableBitmapEx.Wpf">
+      <HintPath>libs\WriteableBitmapEx.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock">
+      <HintPath>libs\WPFExtendedTools\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.resources">
+      <HintPath>libs\WPFExtendedTools\Xceed.Wpf.AvalonDock.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero">
+      <HintPath>libs\WPFExtendedTools\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro">
+      <HintPath>libs\WPFExtendedTools\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010">
+      <HintPath>libs\WPFExtendedTools\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>libs\WPFExtendedTools\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="BaseClasses\InputFilesManager.cs" />
+    <Compile Include="BindingConverters\ColorIndexConverter.cs" />
+    <Compile Include="BindingConverters\ColorListConverter.cs" />
+    <Compile Include="BindingConverters\UpCatalogConverter.cs" />
+    <Compile Include="Config\Config.cs" />
+    <Compile Include="Config\ConfigManager.cs" />
+    <Compile Include="Config\GeologyConfig.cs" />
+    <Compile Include="Config\GraphConfig.cs" />
+    <Compile Include="Config\SystemTools.cs" />
+    <Compile Include="CustomControls\LabeledTextBox.xaml.cs">
+      <DependentUpon>LabeledTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\PathBrowser.xaml.cs">
+      <DependentUpon>PathBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InitClasses\IBox.cs" />
+    <Compile Include="ModelClasses\Marker.cs" />
+    <Compile Include="ModelConfigClasses\Amir.cs" />
+    <Compile Include="ModelConfigClasses\OutputAmirUnit.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Properties\Resources1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ResultClasses\DiaryNote.cs" />
+    <Compile Include="Subclasses\ClusterFileInfo.cs" />
+    <Compile Include="Subclasses\DRectangle.cs" />
+    <Compile Include="Subclasses\GeoPhase.cs" />
+    <Compile Include="Subclasses\InterpolationRectangle.cs" />
+    <Compile Include="Subclasses\MetamorphicFacie.cs" />
+    <Compile Include="Subclasses\ModPoint.cs" />
+    <Compile Include="Subclasses\PrnParameterRange.cs" />
+    <Compile Include="Subclasses\PTPoint.cs" />
+    <Compile Include="Subclasses\RockColor.cs" />
+    <Compile Include="Subclasses\TaskInfo.cs" />
+    <Compile Include="Tools\Cryptor.cs" />
+    <Compile Include="Tools\GraphTools.cs" />
+    <Compile Include="Tools\HistoryLog.cs" />
+    <Compile Include="Tools\I2VISOutputReader.cs" />
+    <Compile Include="Tools\PixelsGraph.cs" />
+    <Compile Include="Tools\PrnWorker.cs" />
+    <Compile Include="Tools\SshManager.cs" />
+    <Compile Include="Windows\BatchTaskWindow.xaml.cs">
+      <DependentUpon>BatchTaskWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\CancelTaskWindow.xaml.cs">
+      <DependentUpon>CancelTaskWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\FilesViewWindow.xaml.cs">
+      <DependentUpon>FilesViewWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\GeothermFileWindow.xaml.cs">
+      <DependentUpon>GeothermFileWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\GeothermWindow.xaml.cs">
+      <DependentUpon>GeothermWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\I2jslabBatchWindow.xaml.cs">
+      <DependentUpon>I2jslabBatchWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ModelNameWindow.xaml.cs">
+      <DependentUpon>ModelNameWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\NewPolygonWindow.xaml.cs">
+      <DependentUpon>NewPolygonWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PicturesConfigWindow.xaml.cs">
+      <DependentUpon>PicturesConfigWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PTtBuilderWindow.xaml.cs">
+      <DependentUpon>PTtBuilderWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PTtWindow.xaml.cs">
+      <DependentUpon>PTtWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\RocksPropertiesWindow.xaml.cs">
+      <DependentUpon>RocksPropertiesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\TextWindow.xaml.cs">
+      <DependentUpon>TextWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\UpdateTaksWindow.xaml.cs">
+      <DependentUpon>UpdateTaksWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\UserCInfigWindow.xaml.cs">
+      <DependentUpon>UserCInfigWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="CustomControls\LabeledTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControls\PathBrowser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Config\Tools.cs" />
+    <Compile Include="InitClasses\CalcGrid.cs" />
+    <Compile Include="InitClasses\Geotherm.cs" />
+    <Compile Include="InitClasses\InitConfig.cs" />
+    <Compile Include="InitClasses\RockBoxes.cs" />
+    <Compile Include="InitClasses\RockDescription.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Windows\BatchTaskWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\CancelTaskWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\FilesViewWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\GeothermFileWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\GeothermWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\I2jslabBatchWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ModelNameWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\NewPolygonWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\PicturesConfigWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\PTtBuilderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\PTtWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\RocksPropertiesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\TextWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\UpdateTaksWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\UserCInfigWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\LargeIcon.png" />
+    <Resource Include="Images\SmallIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\arrow_redo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\arrow_undo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Play-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Shell32">
+      <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\batch.png" />
+    <Resource Include="Images\cancel.png" />
+    <Resource Include="Images\icon-call-queue.png" />
+    <Resource Include="Images\switch.png" />
+    <Resource Include="Images\terminal-icon.png" />
+    <Resource Include="Images\usetsettings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\createInit.png" />
+    <Resource Include="Images\openInit.png" />
+    <Resource Include="Images\ptts.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\openprn.png" />
+    <Resource Include="Images\opentxt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\diary.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\imgsettings.png" />
+    <Resource Include="Images\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\switchuser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\save-128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\filesview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\amiricon.png" />
+    <Resource Include="Images\modeicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\geotherm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\rocks.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\exit_icon.png" />
+    <Resource Include="Images\manual_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\extracttxticon.png" />
+    <Resource Include="Images\newbatch16.png" />
+    <Resource Include="Images\newbatch32.png" />
+    <Resource Include="Images\rebatch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\import_small.png" />
+    <Resource Include="Images\save_img.png" />
+    <Resource Include="Images\save_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\applyGt.png" />
+    <Resource Include="Images\deleteGt.png" />
+    <Resource Include="Images\implyGt.png" />
+    <Resource Include="Images\textOut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\approx.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\applyGt32.png" />
+    <Resource Include="Images\implyGt32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ic.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="i2vIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\filesview_small.png" />
+    <Resource Include="Images\geotherm_mini.png" />
+    <Resource Include="Images\ptts_mini.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\i2vIcon.png" />
+    <Resource Include="Images\i2vIcon_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\inject.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

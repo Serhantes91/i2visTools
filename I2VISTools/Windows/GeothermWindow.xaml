@@ -1,0 +1,92 @@
+﻿<Window x:Class="I2VISTools.Windows.GeothermWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        xmlns:ribbon="http://schemas.microsoft.com/winfx/2006/xaml/presentation/ribbon"
+        xmlns:customControls="clr-namespace:I2VISTools.CustomControls"
+        Title="Расчёт геотерм" Height="700" Width="1000" MinWidth="800" MinHeight="500" Icon="../Images/geotherm_mini.png" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="33" />
+            <RowDefinition/>
+            <RowDefinition Height="75" />
+        </Grid.RowDefinitions>
+
+        <Border BorderBrush="LightBlue" BorderThickness="1" Margin="3" CornerRadius="4">
+           <StackPanel Orientation="Horizontal" Background="AliceBlue" >
+                <ribbon:RibbonButton x:Name="OpenGeothermFileButton" Click="OpenGeothermFileButton_OnClick" Width="20" Height="20" Margin="5,2,2,2" SmallImageSource="../Images/import_small.png" ToolTip="Импорт из файла" MouseOverBackground="#B1FF8B00" MouseOverBorderBrush="#FFFF8900" />
+                <ribbon:RibbonButton Width="20" Height="20" Margin="2" SmallImageSource="../Images/save_small.png" ToolTip="Сохранить в txt" MouseOverBackground="#B1FF8B00" MouseOverBorderBrush="#FFFF8900" />
+                <ribbon:RibbonButton x:Name="ExportPicButton" Width="20" Height="20" Margin="2" SmallImageSource="../Images/save_img.png" ToolTip="Сохранить рисунок" Click="ExportPicButton_OnClick" MouseOverBackground="#B1FF8B00" MouseOverBorderBrush="#FFFF8900" />
+            </StackPanel> 
+        </Border>
+
+        <Border BorderThickness="1" BorderBrush="LightBlue" Grid.Row="1" Margin="3,0,3,0" CornerRadius="4"  >
+            <oxy:PlotView  x:Name="GeothermsPlotView" Margin="10" Loaded="GeothermsPlotView_OnLoaded" />
+        </Border>
+
+        <Border BorderThickness="1" BorderBrush="LightBlue" Grid.Row="2" Margin="3" CornerRadius="4" >
+            <StackPanel  Orientation="Horizontal" Background="AliceBlue" >
+                
+                <GroupBox Header="Параметры геотерм">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical">
+                            <Label Margin="0,3,0,0" Content="t__oc (My)" Height="16" Padding="0" HorizontalContentAlignment="Center" FontSize="10" ToolTip="Возраст океанической литосферы (млн. лет)" />
+                            <TextBox Width="30" Height="20" Text="40" PreviewTextInput="TextBox_PreviewTextInput" x:Name="AgeBox" ToolTip="Возраст океанической литосферы (млн. лет)" />
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="10,0,0,0" >
+                            <Label Margin="0,3,0,0" Content="Hcr (км)" Height="16" Padding="0" HorizontalContentAlignment="Center" FontSize="10" ToolTip="Мощность континентальной коры (км)" />
+                            <TextBox Width="30" Height="20" Text="50" PreviewTextInput="TextBox_PreviewTextInput" x:Name="CrustThicknessBox" ToolTip="Мощность континентальной коры (км)" />
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="10,0,10,0" >
+                            <Label Margin="0,3,0,0" Content="Тmoho (°)" Height="16" Padding="0" HorizontalContentAlignment="Center" FontSize="10" ToolTip="Температура в подошве континентальной коры (градусы)" />
+                            <TextBox Width="35" Height="20" Text="500" PreviewTextInput="TextBox_PreviewTextInput" x:Name="MohoBox" ToolTip="Температура в подошве континентальной коры (градусы)" />
+                        </StackPanel>
+                        <ribbon:RibbonButton Margin="0,0,0,0" LargeImageSource="../Images/applyGt32.png" x:Name="ApplyAgeButton" Width="32" Height="40"  Click="ApplyAgeButton_Click" MouseOverBackground="#B1FF8B00" MouseOverBorderBrush="#FFFF8900" />
+                    </StackPanel>
+                </GroupBox>
+                
+               
+
+                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
+                <GroupBox Header="Отображать">
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox x:Name="ShowGeotherms" Content="Расчётные" IsChecked="True" Checked="ShowGeotherms_OnChecked" Unchecked="ShowGeotherms_OnUnchecked" />
+                        <CheckBox x:Name="ShowUserGeotherms" Content="Пользовательские" IsChecked="True" Checked="ShowUserGeotherms_OnChecked" Unchecked="ShowUserGeotherms_OnUnchecked" />
+                    </StackPanel>
+                </GroupBox>
+
+                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
+                <GroupBox Header="Аппроксимация переходной зоны" >
+                    <StackPanel Orientation="Horizontal">
+                        <customControls:LabeledTextBox Title="Δ (°)" ToolTip="Допустимая погрешность аппроксимации (в градусах)" x:Name="DeltaBox" TitleFontSize="10" Text="5" />
+                        
+                        <StackPanel Orientation="Vertical" Margin="10,2,30,0">
+                            <ribbon:RibbonButton  x:Name="ApproximateButton"   Width="22" Height="20" Click="ApproximateButton_OnClick" ToolTip="Представить океаническую геотерму как набор линейных функций" SmallImageSource="../Images/approx.png" MouseOverBackground="#B1FF8B00" MouseOverBorderBrush="#FFFF8900" />
+                            <ribbon:RibbonButton  SmallImageSource="../Images/deleteGt.png" Width="22" Height="20"  x:Name="ClearApproxButton" Click="ClearApproxButton_Click" MouseOverBackground="#B1FF8B00" MouseOverBorderBrush="#FFFF8900" />
+                          
+                        </StackPanel>
+                        
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Margin="0,3,0,0" Orientation="Horizontal" ToolTip="Интервал, по которому идёт левая окраина. Задаётся через тире" >
+                                <TextBox x:Name="LeftRangeBox" Width="70" Text="1800-1880" />
+                                <Label Content="Слева (км)" Height="20" FontSize="10" Padding="2" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" ToolTip="Интервал, по которому идёт правая окраина. Задаётся через тире" >
+                                <TextBox x:Name="RightRangeBox" Width="70" Text="2500-2600" />
+                                <Label Content="Справа (км)" Height="20" FontSize="10" Padding="2" />
+                            </StackPanel>
+                        </StackPanel>
+                        <ribbon:RibbonButton LargeImageSource="../Images/textOut.png" Margin="5,0,0,0" Width="32" Height="40"  x:Name="TextoutButton" Click="ImplyButton_Click" ToolTip="Получить серию линейных термальных областей по заданной аппроксимации в текстовом формате" MouseOverBackground="#B1FF8B00" MouseOverBorderBrush="#FFFF8900"/>
+                        <ribbon:RibbonButton LargeImageSource="../Images/implyGt32.png" Margin="0,0,5,0" Width="32" Height="40"  x:Name="ImplyButton" Click="ImplyButton_Click" ToolTip="Построить серию линейных термальных областей по заданной аппроксимации в текущей модели" MouseOverBackground="#B1FF8B00" MouseOverBorderBrush="#FFFF8900" />
+                    </StackPanel> 
+                </GroupBox>
+                
+            </StackPanel>
+        </Border>
+        
+        
+        
+    </Grid>
+</Window>

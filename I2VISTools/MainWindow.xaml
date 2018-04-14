@@ -1,0 +1,510 @@
+﻿<ribbon:RibbonWindow x:Class="I2VISTools.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ribbon="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        Title="I2VIS Tools"
+		x:Name="RibbonWindow"
+		Width="1000" Height="600" MinHeight="600" MinWidth="800" Loaded="RibbonWindow_Loaded" Icon="i2vIcon.ico" >
+
+    <ribbon:RibbonWindow.Resources>
+        <BooleanToVisibilityConverter x:Key="b2v" />
+    </ribbon:RibbonWindow.Resources>
+
+	<Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ribbon:Ribbon x:Name="Ribbon" SelectionChanged="Ribbon_OnSelectionChanged">
+            <ribbon:Ribbon.ApplicationMenu>
+                <ribbon:RibbonApplicationMenu Background="#FF292929" BorderBrush="Black" >
+                    <ribbon:RibbonApplicationMenuItem Header="Сменить пользователя"
+                                                      x:Name="MenuItem1"
+                                                      ImageSource="Images\switchuser.png"/>
+                    <ribbon:RibbonApplicationMenuItem Header="Справка"
+                                                      x:Name="DocumentationItem"
+                                                      ImageSource="Images\manual_icon.png" Click="DocumentationItem_OnClick" />
+                    <ribbon:RibbonApplicationMenuItem Header="Выход"
+                                                      x:Name="ExitItem"
+                                                      ImageSource="Images\exit_icon.png" Click="ExitItem_OnClick" />
+                </ribbon:RibbonApplicationMenu>
+            </ribbon:Ribbon.ApplicationMenu>
+            <ribbon:RibbonTab x:Name="HomeTab" 
+                              Header="Кластер" >
+                <ribbon:RibbonGroup x:Name="Group1" 
+                                    Header="Очередь задач">
+                    <ribbon:RibbonButton x:Name="SqueueButton"
+                                         LargeImageSource="Images\icon-call-queue.png"
+                                         Label="Просмотр очереди" Click="SqueueButton_OnClick" />
+
+                    <!--<ribbon:RibbonButton x:Name="Button2"
+                                         SmallImageSource="Images\SmallIcon.png"
+                                         Label="Мои задачи" />-->
+                    <Label Content="Разделы: " Height="20" Padding="-1" />
+                    <!--<ribbon:RibbonButton x:Name="Button3"
+                                         SmallImageSource="Images\SmallIcon.png"
+                                         Label="По разделам" Click="Button3_OnClick" />-->
+                    <ComboBox Width="100" x:Name="ClusterPartsBox" />
+                    <!--<ribbon:RibbonButton x:Name="Button4"
+                                         SmallImageSource="Images\SmallIcon.png"
+                                         Label="Button4" Click="Button4_OnClick" />-->
+                    
+                </ribbon:RibbonGroup>
+
+                <ribbon:RibbonGroup x:Name="UserGroup" 
+                                    Header="Пользователь"> 
+                    <ribbon:RibbonButton Name="ChangeClusterButton" LargeImageSource="Images/switch.png" Label="Сменить кластер" Click="Button3_OnClick" />
+                    <ribbon:RibbonButton Name="UserConfigButton" LargeImageSource="Images/usetsettings.png" Label="Мои настройки" Click="UserConfigButton_OnClick" />
+                </ribbon:RibbonGroup>
+
+                <ribbon:RibbonGroup x:Name="ManageGroup" 
+                                    Header="Управление">
+                    <ribbon:RibbonMenuButton x:Name="BatchTaskButton" Label="Поставить в очередь"  LargeImageSource="Images/batch.png">
+                        <ribbon:RibbonSplitMenuItem x:Name="NewTaskButton" ImageSource="Images/newbatch16.png" Header="Новая задача" Click="NewTaskButton_OnClick" />
+                        <ribbon:RibbonSplitMenuItem x:Name="UpdateTaskButton" ImageSource="Images/rebatch.png" Header="Перезапуск задачи" Click="UpdateTaskButton_OnClick" />
+                        <ribbon:RibbonSplitMenuItem x:Name="I2JSlabTaskButton" ImageSource="Images/extracttxticon.png" Header="Задача - TXT из PRN" Click="I2JSlabTaskButton_OnClick" />
+                    </ribbon:RibbonMenuButton>
+                    <!--<ribbon:RibbonSplitButton Name="BatchTaskButton" LargeImageSource="Images/batch.png" Label="Поставить в очередь" ToolTip="Поставить уже загруженную задачу в очередь" Click="NewTaskButton_OnClick" >
+                        <Button x:Name="NewTaskButton" Content="Новая задача" Click="NewTaskButton_OnClick" />
+                        <Button x:Name="UpdateTaskButton" Content="Перезапуск задачи" Click="UpdateTaskButton_OnClick" />
+                        <Button x:Name="I2JSlabTaskButton" Content="Задача - TXT из PRN" Click="I2JSlabTaskButton_OnClick" />
+                    </ribbon:RibbonSplitButton>-->
+                    <ribbon:RibbonButton Name="CancelTaskButton" LargeImageSource="Images/cancel.png" Label="Отменить задачу" ToolTip="Отменить запущенную задачу" Click="CancelTaskButton_OnClick" />
+                    <ribbon:RibbonButton Name="TerminalButton" LargeImageSource="Images/terminal-icon.png" Label="Терминал" ToolTip="Открыть консоль кластера" />
+                    <ribbon:RibbonButton x:Name="FilesViewButton" LargeImageSource="Images/filesview.png" Label="Менеджер файлов" ToolTip="Управление файлами в кластере" Click="FilesViewButton_OnClick" />
+                </ribbon:RibbonGroup>
+
+            </ribbon:RibbonTab>
+            <ribbon:RibbonTab x:Name="InitTab" 
+                              Header="Новая модель" >
+                <ribbon:RibbonGroup x:Name="InitGroup" 
+                                    Header="Начальная конфигурация (init.t3c)">
+
+                    <ribbon:RibbonButton x:Name="CreateInitButton"
+                                         LargeImageSource="Images\createInit.png"
+                                         Label="Создать" Click="CreateInitButton_OnClick" />
+                    <ribbon:RibbonButton x:Name="OpenInitButton"
+                                         LargeImageSource="Images\openInit.png"
+                                         Label="Открыть" Click="OpenInitButton_OnClick" />
+                    <ribbon:RibbonButton x:Name="SaveInitButton"
+                                         SmallImageSource="Images\save-128.png"
+                                         Label="Сохранить" />
+                    <ribbon:RibbonButton x:Name="SaveAsInitButton"
+                                         SmallImageSource="Images\save-128.png"
+                                         Label="Сохранить как" Click="SaveAsInitButton_OnClick" />
+                    <StackPanel Orientation="Horizontal">
+                        <!--<Separator Width="55" Visibility="Hidden" />-->
+                        <ribbon:RibbonButton x:Name="InitUndoButton"
+                                         SmallImageSource="Images/arrow_undo.png"
+                                         ToolTip="Отменить последнюю операцию" Click="InitUndoButton_OnClick" />
+                        <ribbon:RibbonButton x:Name="InitRedoButton"
+                                         SmallImageSource="Images/arrow_redo.png"
+                                         ToolTip="Вернуть последнюю операцию" Click="InitRedoButton_OnClick" />
+                        <ribbon:RibbonButton x:Name="RocksPropertiesButton" LargeImageSource="Images/rocks.png" Label="Свойства пород" IsEnabled="False" Click="RocksPropertiesButton_OnClick" />
+                    </StackPanel>
+                    
+
+                </ribbon:RibbonGroup>
+
+                <ribbon:RibbonGroup x:Name="OtherT3CGroup" Header="Прочее" >
+                    <ribbon:RibbonButton x:Name="ModeT3CButton"
+                                         LargeImageSource="Images\modeicon.png"
+                                         Label="mode.t3c"  />
+                    <ribbon:RibbonButton x:Name="AmirT3CButton"
+                                         LargeImageSource="Images\amiricon.png"
+                                         Label="amir.t3c" Click="AmirT3CButton_OnClick" />
+
+                    <ribbon:RibbonButton x:Name="GeothermButton"
+                                         LargeImageSource="Images\geotherm.png"
+                                         Label="Геотермы" Click="GeothermButton_OnClick" />
+
+                </ribbon:RibbonGroup>
+
+                <ribbon:RibbonGroup x:Name="OtherGroup" >
+                    <ribbon:RibbonButton x:Name="CommitInitButton"
+                                         LargeImageSource="Images\newbatch32.png"
+                                         Label="Запуск задачи" Click="CommitInitButton_OnClick" IsEnabled="False" />
+                </ribbon:RibbonGroup>
+
+                
+
+            </ribbon:RibbonTab>
+
+            <ribbon:RibbonTab x:Name="ResultsTab" 
+                              Header="Работа с результатами">
+
+                <ribbon:RibbonGroup x:Name="PostprocessingSourceGroup" Header="Исходные данные" >
+                    <ribbon:RibbonButton x:Name="LoadTxtSourceButton"
+                                         LargeImageSource="Images\opentxt.png"
+                                         Label="Загрузить txt-данные" Click="LoadTxtSourceButton_OnClick" />
+                    <ribbon:RibbonButton x:Name="LoadPrnSourceButton"
+                                         LargeImageSource="Images\openprn.png"
+                                         Label="Загрузить prn-данные" Click="LoadPrnSourceButton_OnClick" />
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup Header="Работа с PRN" >
+
+                    <ribbon:RibbonButton x:Name="PTtTrendsButton"
+                                         LargeImageSource="Images\ptts.png"
+                                         Label="PTt-тренды" Click="PTtTrendsButton_OnClick" />
+                    <ribbon:RibbonButton x:Name="EditPrnButton"
+                                         LargeImageSource="Images\inject.png"
+                                         Label="Изменить PRN" Click="EditPrnButton_OnClick" />
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup>
+                    <ribbon:RibbonButton x:Name="GraphConfigButton"
+                                         LargeImageSource="Images\imgsettings.png"
+                                         Label="Настройка рисунков" Click="GraphConfigButton_OnClick" />
+                    <ribbon:RibbonButton x:Name="DiaryButton"
+                                         LargeImageSource="Images\diary.png"
+                                         Label="Мой дневник" Click="DiaryButton_OnClick" />
+                </ribbon:RibbonGroup>
+
+            </ribbon:RibbonTab>
+        </ribbon:Ribbon>
+        
+        <TabControl  Grid.Row="1" Name="DisplayControl" Margin="0,0,0,0" >
+
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Style>
+            </TabControl.ItemContainerStyle>
+
+            <TabItem Name="TerminalItem" >
+                <DataGrid Name="SqueueDataGrid" AutoGenerateColumns="False" FontSize="18" >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="JodIdColumn" Header="ID задачи" Binding="{Binding JobId}" />
+                        <DataGridTextColumn x:Name="PartitionColumn" Header="Раздел" Binding="{Binding Partition}" />
+                        <DataGridTextColumn x:Name="UserColumn" Header="Пользователь" Binding="{Binding User}" />
+                        <DataGridTextColumn x:Name="StatusColumn" Header="Статус" Binding="{Binding Status}" />
+                        <DataGridTextColumn x:Name="TimeColumn" Header="Время" Binding="{Binding Time}" />
+                        <DataGridTextColumn x:Name="NodesColumn" Header="Кол-во узлов" Binding="{Binding NodeList}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            
+            <TabItem Name="NewModelTabItem">
+                <Grid> 
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="70"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" MaxWidth="560" x:Name="HidableColumn" />
+                    </Grid.ColumnDefinitions>
+
+                    <oxy:PlotView Grid.Row="0" Name="InitPlotView" />
+
+                    <ScrollViewer Name="TablesViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="0" Grid.Column="1">
+                        
+                        <TabControl TabStripPlacement="Bottom">
+                            <TabItem Header="Строение и температура">
+                                <StackPanel Name="TablesGrid"  Orientation="Vertical" >
+                                    <Label Content="Геометрия пород" FontSize="20"/>
+                                    <DataGrid Name="GeometryDataGrid" CanUserReorderColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" CanUserSortColumns="False" SelectionChanged="GeometryDataGrid_OnSelectionChanged" HeadersVisibility="Column" >
+                                        <!--<DataGrid.Resources>
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#3399FF"/>
+                                </DataGrid.Resources>-->
+
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Тип" Binding="{Binding RockType}" />
+                                            <DataGridTextColumn Header="Id" Binding="{Binding RockId}" />
+                                            <DataGridTextColumn Header="X0 (ВЛ)" Binding="{Binding Path=Apex0.X}" CanUserSort="False">
+
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="LightBlue" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Y0 (ВЛ)" Binding="{Binding Path=Apex0.Y}" CanUserSort="False">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="LightBlue" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="X1 (НЛ)" Binding="{Binding Path=Apex1.X}" CanUserSort="False" >
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="LightSteelBlue" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Y1 (НЛ)" Binding="{Binding Path=Apex1.Y}" CanUserSort="False" >
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="LightSteelBlue" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="X2 (ВП)" Binding="{Binding Path=Apex2.X}" CanUserSort="False">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="LightBlue" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Y2 (ВП)" Binding="{Binding Path=Apex2.Y}" CanUserSort="False" >
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="LightBlue" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="X3 (НП)" Binding="{Binding Path=Apex3.X}" CanUserSort="False" >
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="LightSteelBlue" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Y3 (НП)" Binding="{Binding Path=Apex3.Y}" CanUserSort="False">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="LightSteelBlue" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                        </DataGrid.Columns>
+
+                                    </DataGrid>
+                                    <StackPanel Orientation="Horizontal" Margin="0" Height="30" VerticalAlignment="Top" >
+
+                                        <ribbon:RibbonButton Name="AddBoxButton" Width="22" Height="20" Margin="5" SmallImageSource="Images/add.png" Click="AddBoxButton_OnClick" ToolTip="Добавить новый четырехугольник блока пород" IsEnabled="False" MouseOverBackground="#B1FF8B00" MouseOverBorderBrush="#FFFF8900" />
+                                        <ribbon:RibbonButton Name="RemoveBoxButton" SmallImageSource="Images/delete.png" Width="22" Height="20" Click="RemoveBoxButton_Click" ToolTip="Удалить выделенный четырехугольник блока пород" IsEnabled="False" MouseOverBackground="#B1FF8B00" MouseOverBorderBrush="#FFFF8900" />
+
+                                        <ribbon:RibbonButton Name="LayerUpButton" SmallImageSource="Images/up.png" Width="22" Height="20" Margin="15,5,5,5" Click="LayerDownButton_Click" IsEnabled="False" MouseOverBackground="#B1FF8B00" MouseOverBorderBrush="#FFFF8900" />
+                                        <ribbon:RibbonButton Name="LayerDownButton" SmallImageSource="Images/down.png" Width="22" Height="20" Click="LayerUpButton_Click" IsEnabled="False" MouseOverBackground="#B1FF8B00" MouseOverBorderBrush="#FFFF8900" />
+
+                                    </StackPanel>
+
+
+                                    <Label Content="Распределение температуры" FontSize="20" />
+                                    <DataGrid Name="GeothermsDataGrid" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" >
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Тип" Binding="{Binding GeothermType}" />
+                                            <DataGridTextColumn Header="X0 (ВЛ)" Binding="{Binding Path=Apex0.X, Mode=TwoWay}" CanUserSort="False">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="LightBlue" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Y0 (ВЛ)" Binding="{Binding Path=Apex0.Y}" CanUserSort="False">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="LightBlue" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="X1 (НЛ)" Binding="{Binding Path=Apex1.X}" CanUserSort="False" >
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="LightSteelBlue" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Y1 (НЛ)" Binding="{Binding Path=Apex1.Y}" CanUserSort="False" >
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="LightSteelBlue" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="X2 (ВП)" Binding="{Binding Path=Apex2.X}" CanUserSort="False">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="LightBlue" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Y2 (ВП)" Binding="{Binding Path=Apex2.Y}" CanUserSort="False" >
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="LightBlue" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="X3 (НП)" Binding="{Binding Path=Apex3.X}" CanUserSort="False" >
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="LightSteelBlue" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Y3 (НП)" Binding="{Binding Path=Apex3.Y}" CanUserSort="False">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="LightSteelBlue" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+
+                                            <DataGridTextColumn Header="T0 (ВЛ)" Binding="{Binding Path=T0}" CanUserSort="False">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="Orange" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+
+                                            <DataGridTextColumn Header="T1 (НЛ)" Binding="{Binding Path=T1}" CanUserSort="False">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="SandyBrown" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+
+                                            <DataGridTextColumn Header="T2 (ВП)" Binding="{Binding Path=T2}" CanUserSort="False">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="Orange" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+
+                                            <DataGridTextColumn Header="T3 (НП)" Binding="{Binding Path=T3}" CanUserSort="False">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Background" Value="SandyBrown" />
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Возраст Л" Binding="{Binding Path=LeftOceanicAge}" CanUserSort="False" />
+                                            <DataGridTextColumn Header="Возраст П" Binding="{Binding Path=RightOceanicAge}" CanUserSort="False" />
+                                            <DataGridTextColumn Header="Темп.пров." Binding="{Binding Path=ThermalDiffusivity}" CanUserSort="False" />
+
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <StackPanel Orientation="Horizontal" Margin="0" Height="30" VerticalAlignment="Top" >
+
+                                        <ribbon:RibbonButton Name="AddThermoBoxButton" Width="22" Height="20" Margin="5" SmallImageSource="Images/add.png" ToolTip="Добавить новый четырехугольник термального распределения " IsEnabled="False" Click="AddThermoBoxButton_OnClick" MouseOverBackground="#B1FF8B00" MouseOverBorderBrush="#FFFF8900" />
+                                        <ribbon:RibbonButton Name="RemoveThermoBoxButton" SmallImageSource="Images/delete.png" Width="22" Height="20"  ToolTip="Удалить выделенный четырехугольник термального распределения" IsEnabled="False" MouseOverBackground="#B1FF8B00" MouseOverBorderBrush="#FFFF8900" Click="RemoveThermoBoxButton_OnClick" />
+
+                                        <ribbon:RibbonButton Name="ThermoLayerUpButton" SmallImageSource="Images/up.png" Width="22" Height="20" Margin="15,5,5,5"  IsEnabled="False" MouseOverBackground="#B1FF8B00" MouseOverBorderBrush="#FFFF8900" Click="ThermoLayerUpButton_OnClick" />
+                                        <ribbon:RibbonButton Name="ThermoLayerDownButton" SmallImageSource="Images/down.png" Width="22" Height="20"  IsEnabled="False" MouseOverBackground="#B1FF8B00" MouseOverBorderBrush="#FFFF8900" Click="ThermoLayerDownButton_OnClick" />
+
+                                    </StackPanel>
+
+                                </StackPanel>
+                            </TabItem>
+                            <TabItem Header="Сетка">
+                                
+                            </TabItem>
+                        </TabControl>
+                        
+                    </ScrollViewer>
+                    
+                    
+                    
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="#190000CB">
+                        <StackPanel Name="NodesVisibilityPanel" Orientation="Vertical" Width="200" HorizontalAlignment="Left" Margin="10" >
+                            <CheckBox Name="NodesVisibilityBox" Content="Показывать узлы геометрии" IsChecked="True" Checked="NodesVisibilityBox_OnChecked" Unchecked="NodesVisibilityBox_OnUnchecked" />
+                            <CheckBox Name="GeometryHideBox" Content="Показывать таблицы" IsChecked="True" Checked="GeometryHideBox_OnChecked" Unchecked="GeometryHideBox_OnUnchecked" />
+                            <CheckBox Name="GeothermsBox" Content="Отображать геотермы" Checked="GeothermsBox_OnChecked" Unchecked="GeothermsBox_OnUnchecked" />
+                        </StackPanel>
+
+                        <ribbon:RibbonButton Name="AdjustAxesScaleButton" Width="32" Height="32" Margin="0,15,50,5" Label="1:1" Padding="0,7,0,0" Click="AdjustAxesScaleButton_OnClick" Background="Beige" ToolTip="Выравнить масштаб осей" FontSize="18" VerticalAlignment="Top"  />
+
+                    </StackPanel>
+                    
+                </Grid>
+            </TabItem>
+            
+            <TabItem x:Name="ResultsWorkTabItem" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    
+                    <oxy:PlotView Name="ResultImageView" />
+                    <Image Name="ResultImage"/>
+                    
+                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" >
+                        <Button Name="LeftButton" Width="40" Height="40" Content="&#9664;" FontSize="20" IsEnabled="False" Click="LeftButton_Click" />
+                        <Label Name="ImageNameLabel" FontSize="20" />
+                        <Button Name="RightButton" Width="40" Height="40" Content="&#9654;" FontSize="20" IsEnabled="False" Click="RightButton_Click" />
+                    </StackPanel>
+                    
+                    
+                    <Grid Grid.Row="0" Grid.Column="1"  Name="RightPanelGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="150"/>
+                        </Grid.RowDefinitions>
+                        <ListBox Name="ResultListBox"  SelectionMode="Extended" />
+
+
+                        <StackPanel Name="OverlayStackPanel" Orientation="Horizontal" Grid.Row="1" Visibility="Collapsed"  >
+                            <CheckBox x:Name="OverlayParsCb" Content="Доп. отображение  " Margin="5" IsChecked="False" Unchecked="OverlayParsCb_OnUnchecked" />
+                            <StackPanel Orientation="Horizontal" Name="OverlayParsStackPanel" Visibility="{Binding IsChecked, ElementName=OverlayParsCb, Converter={StaticResource b2v}}" >
+                                <TextBox x:Name="OverlayFileTextBox" MaxWidth="160" IsReadOnly="True" Padding="0" Height="18" />
+                                <Button x:Name="SelectOverlayButton" Width="20" Height="20" Content="..." Click="SelectOverlayButton_OnClick" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Name="PrnParsStackPanel" Orientation="Horizontal" Grid.Row="1" Visibility="Collapsed">
+                            <Label Name="PrnParLabel" Content="Отображаемый параметр  "  />
+                            <ComboBox Name="PrnParComboBox" Width="150" />
+                        </StackPanel>
+                        
+                        
+                        
+                        <GroupBox Grid.Row="2" Header="Установки">
+                            <StackPanel Orientation="Vertical">
+
+                                <StackPanel Orientation="Horizontal" Margin="5">
+                                    <Label Height="30" Content="Размер модели" Margin="6,0,0,0" />
+                                    <TextBox Width="40" Height="20" x:Name="XSizeBox" Text="4000" PreviewTextInput="XSizeBox_PreviewTextInput" />
+                                    <Label Height="30" Content="×" />
+                                    <TextBox Width="40" Height="20" x:Name="ZSizeBox" Text="400" PreviewTextInput="XSizeBox_PreviewTextInput" />
+                                    <Label Content=" км." />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="5">
+                                    <Label Height="30" Content="Отображение по X: от" Margin="6,0,0,0" />
+                                    <TextBox Width="40" Height="20" x:Name="XBegBox" Text="1500" PreviewTextInput="XSizeBox_PreviewTextInput" />
+                                    <Label Height="30" Content="до" />
+                                    <TextBox Width="40" Height="20" x:Name="XEndBox" Text="3000" PreviewTextInput="XSizeBox_PreviewTextInput" />
+                                    <Label Height="30" Content="км." />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="5">
+                                    <Label Height="30" Content="Отображение по Z: от" Margin="6,0,0,0" />
+                                    <TextBox Width="40" Height="20" x:Name="ZBegBox" Text="0" PreviewTextInput="XSizeBox_PreviewTextInput" />
+                                    <Label Height="30" Content="до" />
+                                    <TextBox Width="40" Height="20" x:Name="ZEndBox" Text="300" PreviewTextInput="XSizeBox_PreviewTextInput" />
+                                    <Label Height="30" Content="км." />
+                                </StackPanel>
+                            </StackPanel>
+                            
+                        </GroupBox>
+                    </Grid>
+                   
+                    
+                    <Button Name="ProceedPicturingButton" Grid.Column="1" Grid.Row="1" Width="30" Height="30" Click="ProceedPicturingButton_Click"> 
+                        <Button.Content>
+                            <Image Source="Images/Play-icon.png" Stretch="None" />
+                        </Button.Content>
+                    </Button>
+                    <ProgressBar Name="DrawingProgressBar" Width="250" Height="30" Visibility="Collapsed" />
+                    
+                </Grid>
+            </TabItem>
+            
+        </TabControl>
+
+        
+
+    </Grid>
+</ribbon:RibbonWindow>

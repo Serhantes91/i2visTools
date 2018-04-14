@@ -1,0 +1,85 @@
+﻿<Window x:Class="I2VISTools.Windows.PicturesConfigWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ucc="clr-namespace:I2VISTools.BindingConverters"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        Title="Настройка рисунков" Height="520" Width="450" MinHeight="500" MinWidth="430" Loaded="Window_Loaded" WindowStyle="ToolWindow" ResizeMode="NoResize">
+    
+    <Window.Resources>
+        <ucc:ColorListConverter x:Key="ColorConverter"/>
+        <ucc:ColorIndexConverter x:Key="IndexConverter"/>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
+            <Label Content="Цветовая палитра txt-файлов:" HorizontalContentAlignment="Center" />
+            <ListBox x:Name="ColorsListBox" Height="400" Width="140"  >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Width="30" Content="{Binding Path=Index}" />
+                            <xctk:ColorPicker  Width="70" StandardButtonHeader="Назад" ShowDropDownButton="False" ShowStandardColors="False" ShowAvailableColors="False" AdvancedButtonHeader="Изменить" SelectedColor="{Binding Path=Color, Converter={StaticResource ColorConverter}}"/> <!--SelectedColor="{Binding Converter={StaticResource ColorConverter}}"-->
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+
+                <!--<ListBox.Resources>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Background" Value="{Binding Converter={StaticResource ColorConverter}}" />
+                        <Setter Property="Content" Value="{Binding Converter={StaticResource IndexConverter}}" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="FontSize" Value="16" />
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Foreground" Value="AliceBlue" />
+                    </Style>
+                </ListBox.Resources>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <EventSetter Event="MouseDoubleClick" Handler="ListBoxItemDoubleClick"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>-->
+            </ListBox>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <Label Content="Отображаемые изотермы:" HorizontalContentAlignment="Center" />
+            <ListBox x:Name="IsotermsBox" Margin="5" MinHeight="100" MaxHeight="180"  />
+            <StackPanel Orientation="Horizontal" Width="110" >
+                <TextBox x:Name="IsothermBox" Width="50" Height="20" Margin="5" />
+                <Button x:Name="AddIsothermButton" Width="20" Height="20"  Content="+" Click="AddIsothermButton_Click" />
+                <Button x:Name="RemoveIsothermButton" Margin="5" Width="20" Height="20" Content="x" Click="RemoveIsothermButton_Click" />
+            </StackPanel>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
+            <Label Content="Диапазон значений PRN-файлов:" HorizontalContentAlignment="Center" />
+            <ListBox x:Name="PrnValueRangeListBox" Margin="5" MaxHeight="130" MinHeight="40" />
+            <StackPanel Orientation="Horizontal">
+                <ComboBox x:Name="PrnParametersBox" Width="60" Height="20" Margin="5" />
+                <TextBox x:Name="MinValueBox" Height="20" Padding="0"  Width="40" Text="Min" />
+                <Label Content=" - " Height="20" Padding="0" />
+                <TextBox x:Name="MaxValueBox" Height="20" Padding="0"  Width="40" Text="Max" />
+                <Button x:Name="AddPrnRangeButton" Content="+" Width="20" Margin="5" ToolTip="Добавить новый диапазон значений" Click="AddPrnRangeButton_Click" />
+                <Button x:Name="RemovePrnRangeButton" Content="x" Width="20" Height="20" ToolTip="Удалить выделенный диапазон" Click="RemovePrnRangeButton_Click" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Orientation="Horizontal">
+            <Button x:Name="ApplyButton"  Height="30" Width="70" Content="Применить" Click="ApplyButton_Click"  />
+            <Button x:Name="ApplyAndSaveButton" Height="30" Width="140" Margin="5" Content="Применить и сохранить" Click="ApplyAndSaveButton_Click" />
+        </StackPanel>
+        
+        
+        
+    </Grid>
+</Window>

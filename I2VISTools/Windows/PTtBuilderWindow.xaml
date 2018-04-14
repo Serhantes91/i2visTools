@@ -1,0 +1,152 @@
+﻿<Window x:Class="I2VISTools.Windows.PTtBuilderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        Title="Построение трендов" Height="520" Width="980" MinHeight="480" MinWidth="930" Icon="../Images/ptts_mini.png" Loaded="PTtBuilderWindow_OnLoaded" >
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <!--<ColumnDefinition Width="120"/>-->
+            <ColumnDefinition />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+
+        
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.ColumnSpan="3">
+
+            <StackPanel Orientation="Vertical" >
+                <Button Name="LoadPrnButton" Width="100" Height="30" Content="Загрузить Prn" Margin="5" Click="LoadPrnButton_Click" />
+                <Button Name="LoadTxtButton" Width="100" Height="30" Content="Загрузить txt" Margin="5" Click="LoadTxtButton_Click" IsEnabled="False" />
+            </StackPanel>
+
+            <ListBox x:Name="PrnFilesListBox" Margin="10" MinWidth="400" SelectionChanged="PrnFilesListBox_OnSelectionChanged" />
+            <GroupBox Grid.Column="1" Header="Отображаемая область">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="X с"/>
+                        <TextBox Width="40" x:Name="StXTb" Text="1500" Height="18" />
+                        <Label Content=" по "/>
+                        <TextBox Width="40" x:Name="EndXTb" Text="3000" Height="18" />
+                        <Label Content="км"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Z с"/>
+                        <TextBox Width="40" x:Name="StZTb" Text="0" Height="18" />
+                        <Label Content=" по "/>
+                        <TextBox Width="40" x:Name="EndZTb" Text="300" Height="18" />
+                        <Label Content="км"/>
+                    </StackPanel>
+
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+
+        <Grid x:Name="PlotViewGrid" Grid.Column="0" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Label x:Name="TipLabel" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0" FontSize="16" Visibility="Collapsed"  />
+            <oxy:PlotView Grid.Row="1"  x:Name="plotView"  />
+        
+        </Grid>
+        
+
+        <TabControl x:Name="SearchOptionsTabControl" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" SelectionChanged="Selector_OnSelectionChanged" >
+            
+            <TabItem Header="Ручной выбор маркеров" >
+                <Grid Name="CustomTrendsGrid">
+                    <!--<Grid.RowDefinitions>
+                        <RowDefinition Height="75" />
+                        <RowDefinition/>
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="200"/>
+                    </Grid.ColumnDefinitions>-->
+                    
+                    <GroupBox Header="Выбор маркеров" >
+                        <StackPanel  >
+                            <StackPanel Orientation="Horizontal"> 
+                                <RadioButton x:Name="PositionRb" Content="По позиции" IsChecked="True" Margin="5" />
+                                <RadioButton x:Name="IndexRb" Content="По индексу" Margin="5" Checked="IndexRb_OnChecked" Unchecked="IndexRb_OnUnchecked" />
+                            </StackPanel>
+                            <StackPanel x:Name="IndexInputStackPanel" Orientation="Horizontal" Visibility="Collapsed" >
+                                <TextBox x:Name="MarkerIndexTextBox" Width="100" Margin="5" PreviewTextInput="MarkerIndexTextBox_OnPreviewTextInput" KeyDown="MarkerIndexTextBox_OnKeyDown" />
+                                <Button x:Name="MarkerIndexInputButton" Width="30" Height="20" Content="↓" Click="MarkerIndexInputButton_Click" ToolTip="Добавить индекс в список" />
+                            </StackPanel>
+                            
+                            <Label Content="Выбранные маркеры" HorizontalContentAlignment="Center" />
+                            <ListBox MaxHeight="400" x:Name="MarkersList" />
+                            <Button x:Name="DeleteSelected" Width="20" Height="20" Content="x" Margin="5" ToolTip="Удалить выбранную точку" Click="DeleteSelected_Click" />
+                            <Button Width="100" Height="30" Margin="5" Content="Отследить" Name="PttTrackButton" Click="PttTrackButton_OnClick" />
+                        </StackPanel>
+                    </GroupBox>
+
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Поиск по глубине">
+               <StackPanel  >
+                   <Label Content="Мин. глубина погружения (км)" HorizontalContentAlignment="Center" />
+                   <TextBox x:Name="MinDepthBox" HorizontalContentAlignment="Center" Width="100" Margin="0,0,0,10" Text="70" ToolTip="Минимальная глубина, на которую погрузились породы" />
+                   <Label Content="Макс. глубина всплытия (км)" HorizontalContentAlignment="Center" />
+                   <TextBox x:Name="MaxDepthBox" HorizontalContentAlignment="Center" Width="100" Margin="0,0,0,10" ToolTip="Максимальная глубина эксгумации погруженных пород. Если это неважно, оставьте -1" Text="-1" />
+                   <Label Content="Индексы отслеживаемых пород" HorizontalContentAlignment="Center" />
+                   <TextBox x:Name="RockIndexesBox" HorizontalContentAlignment="Center" Width="100" Text="5 6" />
+
+                    <Label Content="Кол-во маркеров на графике" HorizontalContentAlignment="Center" />
+                    <TextBox x:Name="PlotMarkersCountBox" HorizontalContentAlignment="Center" Width="70" PreviewTextInput="MarkerIndexTextBox_OnPreviewTextInput" Text="5" />
+                   
+                   <CheckBox x:Name="FullFileCheckBox" Margin="10" Content="Подробный вых. файл"  />
+
+                    <Separator Height="20" />
+
+
+                   <Button x:Name="SearchMarkersButton" Width="80" Height="30" Content="Поиск" Click="SearchMarkersButton_Click" />
+               </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Поиск по фациям метаморфизма">
+
+                <StackPanel  >
+                    <Label Content="Выберите фации метаморфизма" HorizontalContentAlignment="Center" />
+                    <ListBox x:Name="MetamorphicFaciesListBox" Width="150" SelectionMode="Multiple" />
+                    
+                    <Label Content="Индексы отслеживаемых пород" HorizontalContentAlignment="Center" />
+                    <TextBox x:Name="MetaRockIndexesBox" Width="100" HorizontalContentAlignment="Center" Text="5 6" />
+
+                    <Label Content="Кол-во отображаемых&#x0a;маркеров на фацию" HorizontalContentAlignment="Center" Margin="0,20,0,0" />
+                    <TextBox x:Name="PlotMarkersFacieCountBox" Width="80" PreviewTextInput="MarkerIndexTextBox_OnPreviewTextInput" Text="3" HorizontalContentAlignment="Center" />
+                    
+                    <CheckBox x:Name="FullFileFacieCheckBox" Margin="10" Content="Подробный выход. файл" />
+                    
+                    <Separator Height="20" />
+
+                    <Button x:Name="MetaFaciesSearchMarkersButton" Width="80" Height="30" Content="Поиск" Click="MetaFaciesSearchMarkersButton_OnClick"  />
+                </StackPanel>
+
+            </TabItem>
+            <TabItem Header="Поиск конкретных пород" >
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Индексы отслеживаемых пород" HorizontalContentAlignment="Center" />
+                    <TextBox x:Name="TargetRocksIndexesBox" Width="100" HorizontalContentAlignment="Center" Text="23 24 25 26" />
+                    <Button x:Name="SearchRocksButton" Width="80" Height="30" Content="Поиск" Click="SearchRocksButton_Click" />
+                </StackPanel>
+                
+            </TabItem>
+        </TabControl>
+        
+    </Grid>
+</Window>
