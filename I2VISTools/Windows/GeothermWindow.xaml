@@ -35,11 +35,11 @@
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Margin="10,0,0,0" >
                             <Label Margin="0,3,0,0" Content="Hcr (км)" Height="16" Padding="0" HorizontalContentAlignment="Center" FontSize="10" ToolTip="Мощность континентальной коры (км)" />
-                            <TextBox Width="30" Height="20" Text="50" PreviewTextInput="TextBox_PreviewTextInput" x:Name="CrustThicknessBox" ToolTip="Мощность континентальной коры (км)" />
+                            <TextBox Width="30" Height="20" Text="40" PreviewTextInput="TextBox_PreviewTextInput" x:Name="CrustThicknessBox" ToolTip="Мощность континентальной коры (км)" />
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Margin="10,0,10,0" >
                             <Label Margin="0,3,0,0" Content="Тmoho (°)" Height="16" Padding="0" HorizontalContentAlignment="Center" FontSize="10" ToolTip="Температура в подошве континентальной коры (градусы)" />
-                            <TextBox Width="35" Height="20" Text="500" PreviewTextInput="TextBox_PreviewTextInput" x:Name="MohoBox" ToolTip="Температура в подошве континентальной коры (градусы)" />
+                            <TextBox Width="35" Height="20" Text="600" PreviewTextInput="TextBox_PreviewTextInput" x:Name="MohoBox" ToolTip="Температура в подошве континентальной коры (градусы)" />
                         </StackPanel>
                         <ribbon:RibbonButton Margin="0,0,0,0" LargeImageSource="../Images/applyGt32.png" x:Name="ApplyAgeButton" Width="32" Height="40"  Click="ApplyAgeButton_Click" MouseOverBackground="#B1FF8B00" MouseOverBorderBrush="#FFFF8900" />
                     </StackPanel>

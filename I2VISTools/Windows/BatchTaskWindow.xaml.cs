@@ -220,10 +220,12 @@ namespace I2VISTools.Windows
 
                 var destinationFolder = modelName;
 
+                bool rewrite = false;
                 if (dirItems.Contains(modelName))
                 {
-                    MessageBox.Show("В вашей кластерной рабочей директории уже существует задача с таким именем!");
-                    return;
+                    rewrite = (MessageBox.Show("В вашей кластерной рабочей директории уже существует задача с таким именем! Хотите ли вы перезаписать её t3c-файлы?", "Перезапись", MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
+                        MessageBoxResult.Yes);
+                    if (!rewrite) return;   
                 }
 
                 Dispatcher.Invoke(updProgress, ProgressBar.ValueProperty, ++barValue);
@@ -238,41 +240,46 @@ namespace I2VISTools.Windows
 
                     var initialDirectory = sftpclient.WorkingDirectory;
 
-                    if (!dirExists)
+                    if (!rewrite)
                     {
-                        sshclient.RunCommand("cd _scratch\n" + DiscretizePath(Config.Config.Instace.ClusterWorkingDirectory) + "mkdir base_lomonosov");
-                        sftpclient.ChangeDirectory(sftpclient.WorkingDirectory + "/_scratch/" + Config.Config.Instace.ClusterWorkingDirectory + "base_lomonosov");
-
-                        //копирование с локалки 
-                        ZipFile zipFile = new ZipFile("base_lomonosov.zip");
-                        var tempFolder = @"temp\";
-                        zipFile.ExtractAll(tempFolder);
-
-                        var fullTempPath = System.IO.Path.GetFullPath(@"temp\base_lomonosov");
-                        var fileEntries = Directory.GetFiles(fullTempPath);
-
-                        foreach (var file in fileEntries)
+                        if (!dirExists)
                         {
-                            using (var fileStream = new FileStream(file, FileMode.Open))
+                            sshclient.RunCommand("cd _scratch\n" + DiscretizePath(Config.Config.Instace.ClusterWorkingDirectory) + "mkdir base_lomonosov");
+                            sftpclient.ChangeDirectory(sftpclient.WorkingDirectory + "/_scratch/" + Config.Config.Instace.ClusterWorkingDirectory + "base_lomonosov");
+
+                            //копирование с локалки 
+                            ZipFile zipFile = new ZipFile("base_lomonosov.zip");
+                            var tempFolder = @"temp\";
+                            zipFile.ExtractAll(tempFolder);
+
+                            var fullTempPath = System.IO.Path.GetFullPath(@"temp\base_lomonosov");
+                            var fileEntries = Directory.GetFiles(fullTempPath);
+
+                            foreach (var file in fileEntries)
                             {
-                                sftpclient.BufferSize = 4 * 1024; // bypass Payload error large files
-                                sftpclient.UploadFile(fileStream, System.IO.Path.GetFileName(file), true);
+                                using (var fileStream = new FileStream(file, FileMode.Open))
+                                {
+                                    sftpclient.BufferSize = 4 * 1024; // bypass Payload error large files
+                                    sftpclient.UploadFile(fileStream, System.IO.Path.GetFileName(file), true);
+                                }
                             }
+
+                            Directory.Delete(fullTempPath, true);
+
                         }
 
-                        Directory.Delete(fullTempPath, true);
+                        Dispatcher.Invoke(updProgress, ProgressBar.ValueProperty, ++barValue);
 
+                        var cr =
+                                sshclient.RunCommand(
+                                    "module add slurm\ncd _scratch\n" + DiscretizePath(Config.Config.Instace.ClusterWorkingDirectory) + "scp -r base_lomonosov " + destinationFolder);
+                        result = cr.Result;
+
+                        
                     }
 
-                    Dispatcher.Invoke(updProgress, ProgressBar.ValueProperty, ++barValue);
-
-                    var cr =
-                            sshclient.RunCommand(
-                                "module add slurm\ncd _scratch\n" + DiscretizePath(Config.Config.Instace.ClusterWorkingDirectory) + "scp -r base_lomonosov " + destinationFolder);
-                    result = cr.Result;
-
                     sftpclient.ChangeDirectory(initialDirectory + "/_scratch/" + Config.Config.Instace.ClusterWorkingDirectory +
-                                               destinationFolder);
+                                                   destinationFolder);
                     //sftpclient.DeleteFile(@"init.t3c");
 
                     using (var fileStream = new FileStream(initfile, FileMode.Open))

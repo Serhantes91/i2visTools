@@ -643,6 +643,71 @@ namespace I2VISTools.Tools
             return result;
         }
 
+        public static void ReadBoundaryConditions(string filePath)
+        {
+            //todo мб изменить на bitconverter
+
+            using (var fs = new FileStream(filePath, FileMode.Open))
+            {
+                var changePosition = 0l;
+
+                using (var br = new BinaryReader(fs))
+                {
+                    br.BaseStream.Position = 4;
+                    var xnumx = br.ReadInt64();
+                    var ynumy = br.ReadInt64();
+
+                    br.BaseStream.Position += 12 * 8;
+                    var rocknum = br.ReadInt32();
+                    var bondnum = br.ReadInt64();
+
+                    changePosition = 4 + 2 * 4 + 16 * 8 + rocknum * (8 * 24 + 4) + ((4 * 22 + 8 * 4) * xnumx * ynumy) + xnumx * 4 + ynumy * 4;
+                    br.BaseStream.Position = changePosition;
+
+                    var bondv = new float[bondnum, 4];
+                    var bondn = new float[bondnum, 3];
+
+                    var lst = new List<string>();
+
+                    var singleArray = new byte[4];
+                    for (int m1 = 1; m1 < bondnum; m1++)
+                    {
+                        bondv[m1, 0] = br.ReadSingle();
+                        
+                        /*
+                        if (ArePrettyEqual(bondv[m1, 0], 3.169E-09) )
+                        {
+                            fs.Position -= 4;
+                            singleArray = BitConverter.GetBytes(1.769E-09f);
+                            fs.Write(singleArray, 0, 4);
+                        } */
+                        
+                        bondv[m1, 1] = br.ReadSingle();
+                        bondv[m1, 2] = br.ReadSingle();
+                        bondv[m1, 3] = br.ReadSingle();
+                        bondn[m1, 0] = br.ReadInt64();
+                        bondn[m1, 1] = br.ReadInt64();
+                        bondn[m1, 2] = br.ReadInt64();
+
+                        lst.Add(string.Format("{0}\t{1}\t{2}\t{3}", bondv[m1, 0], bondv[m1, 1], bondv[m1, 2], bondv[m1, 3]));
+                    }
+                    File.WriteAllLines("dsdf.txt", lst);
+                    
+                }
+                /*
+                byte tb = replacedRockId;
+                byte[] bytes = { tb };
+                fs.Write(bytes, 0, 1);*/
+
+            }
+            
+        }
+
+        private static bool ArePrettyEqual(double v1, double v2, double tolerance = 0.5E-09)
+        {
+            return Math.Abs(v1 - v2) <= tolerance;
+        }
+
         public static void GetTxtfromPrn(string inputPrnPath, string outputTxtPath = null) 
         {
             if (string.IsNullOrWhiteSpace(outputTxtPath)) outputTxtPath = Path.GetDirectoryName(inputPrnPath);

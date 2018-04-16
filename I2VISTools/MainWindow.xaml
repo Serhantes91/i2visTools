@@ -5,7 +5,7 @@
         xmlns:oxy="http://oxyplot.org/wpf"
         Title="I2VIS Tools"
 		x:Name="RibbonWindow"
-		Width="1000" Height="600" MinHeight="600" MinWidth="800" Loaded="RibbonWindow_Loaded" Icon="i2vIcon.ico" >
+		Width="1000" Height="600" MinHeight="600" MinWidth="800" Loaded="RibbonWindow_Loaded" Icon="voac60.ico" >
 
     <ribbon:RibbonWindow.Resources>
         <BooleanToVisibilityConverter x:Key="b2v" />

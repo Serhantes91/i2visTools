@@ -3088,7 +3088,7 @@ namespace I2VISTools
 
             _currentConfig.Geotherms.Remove(tb);
 
-            var gts = _graphModel.Series.FirstOrDefault(x => x.Tag == tb.Name);
+            var gts = _graphModel.Series.FirstOrDefault(x => Convert.ToString(x.Tag) == tb.Name);
             if (gts == null) return;
             _graphModel.Series.Remove(gts);
 
@@ -3120,7 +3120,7 @@ namespace I2VISTools
 
             GeothermsDataGrid.Items.Refresh();
 
-            var gts = _graphModel.Series.FirstOrDefault(x => x.Tag != null && x.Tag == tb.Name);
+            var gts = _graphModel.Series.FirstOrDefault(x => x.Tag != null && Convert.ToString(x.Tag) == tb.Name);
             if (gts == null) return;
 
             var serInd = _graphModel.Series.IndexOf(gts);
@@ -3162,7 +3162,7 @@ namespace I2VISTools
 
         private void EditPrnButton_OnClick(object sender, RoutedEventArgs e)
         {
-
+            /*
             var ofd1 = new OpenFileDialog();
             if (ofd1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -3182,9 +3182,9 @@ namespace I2VISTools
 
                 PrnWorker.ChangeMarkersRockId(ofd2.FileName, inds, 33);
 
-            }
+            } */
 
-            //PrnWorker.GetMarkersByPositionAndType(@"C:\Users\Сергей\Desktop\terrain_norm_early_inject\voac70.prn");
+            PrnWorker.ReadBoundaryConditions(@"H:\modelling_results\pz2\p150_l140_c30_m600_v5-1_\voac20.prn");
         }
 
         private void SelectOverlayButton_OnClick(object sender, RoutedEventArgs e)

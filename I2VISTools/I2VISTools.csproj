@@ -36,7 +36,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>i2vIcon.ico</ApplicationIcon>
+    <ApplicationIcon>voac60.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip">
@@ -429,6 +429,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\inject.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="voac60.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

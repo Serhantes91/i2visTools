@@ -323,14 +323,14 @@ namespace I2VISTools.Windows
             if (tMoho <= 0 || tMoho > 1000)
             {
                 MessageBox.Show("Температура подошвы коры некорректная!");
-                MohoBox.Text = "500";
+                MohoBox.Text = "600";
                 return;
             }
 
             if (thickness <= 0 || thickness > 100)
             {
                 MessageBox.Show("Кора мощностью " + thickness + "км ? Не может быть такого!");
-                CrustThicknessBox.Text = "50";
+                CrustThicknessBox.Text = "40";
                 return;
             }
 
