@@ -30,7 +30,7 @@ namespace I2VISTools.Windows
 
         private void COpyButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Clipboard.SetText(TextContent);
         }
 
         private void TextWindow_OnLoaded(object sender, RoutedEventArgs e)

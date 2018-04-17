@@ -46,6 +46,16 @@ namespace I2VISTools.Windows
         {
             if (selectedInds.Count == 0) return;
 
+            //todo сделать свой airNodes для каждого сечения
+            _airNodesNum = 1;
+            while ((arr[_airNodesNum, selectedInds[0]] == 0 || arr[_airNodesNum, selectedInds[0]] == 1) && _airNodesNum < arr.GetLength(0) - 1)
+            {
+                _airNodesNum++;
+            }
+
+            _airNodesNum = (_airNodesNum < 200) ? _airNodesNum - 1 : 0;
+
+
             ThermSeries = new List<LineSeries>();
 
             var oldArrZ = arr.GetLength(0);
@@ -88,14 +98,7 @@ namespace I2VISTools.Windows
             }
 
             TxtImage.Source = new DrawingImage(visual.Drawing);
-
-            while (arr[_airNodesNum,10] == 0 && _airNodesNum < arr.GetLength(0)-1)
-            {
-                _airNodesNum++;
-            }
-
-            _airNodesNum = (_airNodesNum < 200) ? _airNodesNum - 1 : 0;
-
+            
         }
 
 

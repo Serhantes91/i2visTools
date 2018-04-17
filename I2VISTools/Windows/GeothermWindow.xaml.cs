@@ -738,13 +738,13 @@ namespace I2VISTools.Windows
 
         private void ImplyButton_Click(object sender, RoutedEventArgs e)
         {
-
-            var Hocean = 4500;
+            //todo расхардкодить глубину океана и высоту воздуха (расчёт по маркерам или иниту или сделать опциональным)
+            var Hocean = 4500; 
             var Hair = 8000;
 
             if (approxSerie == null || approxSerie.Points.Count == 0)
             {
-                MessageBox.Show("Похоже, вы ещё не сделали аппрксимацию. Нечего выводить.");
+                MessageBox.Show("Похоже, вы ещё не сделали аппроксимацию. Нечего выводить.");
                 return;
             }
 
