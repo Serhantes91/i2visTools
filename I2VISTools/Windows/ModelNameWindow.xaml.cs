@@ -19,12 +19,13 @@ namespace I2VISTools.Windows
     /// </summary>
     public partial class ModelNameWindow : Window
     {
-
+        private string defaultName;
         public string OutName { get; set; }
 
-        public ModelNameWindow()
+        public ModelNameWindow(string defaultName = null)
         {
             InitializeComponent();
+            this.defaultName = defaultName;
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
@@ -50,6 +51,7 @@ namespace I2VISTools.Windows
 
         private void ModelNameWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
+            InputTextBox.Text = defaultName;
             InputTextBox.Focus();
         }
     }

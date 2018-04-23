@@ -2318,11 +2318,6 @@ namespace I2VISTools
 
         private void CommitInitButton_OnClick(object sender, RoutedEventArgs e)
         {
-
-            //var mw = new ModelNameWindow() {Owner = this};
-            //if (mw.ShowDialog() == false) return;
-            //var modelName = ((App) Application.Current).CurrentModelName;
-
             if (!Directory.Exists("temp")) Directory.CreateDirectory("temp");
 
             var uploadfile = "temp\\init.t3c";
@@ -2332,74 +2327,7 @@ namespace I2VISTools
 
             var btw = new BatchTaskWindow(uploadfile) {Owner = this};
             btw.ShowDialog();
-
-            //var keyFile = new PrivateKeyFile(Config.Config.Instace.UserKeyFilePath, Config.Config.Instace.UserFingerprint);
-            //var keyFiles = new[] { keyFile };
-            //var username = Config.Config.Instace.UserLogin;
-
-            //var methods = new List<AuthenticationMethod>();
-            //methods.Add(new PrivateKeyAuthenticationMethod(username, keyFiles));
-
-            //var con = new ConnectionInfo(Config.Config.Instace.ClusterHost, Config.Config.Instace.ClusterPort, username, methods.ToArray());
-
-            //bool dirExists;
-
-            //string result;
-            //using (var sshclient = new SshClient(con))
-            //{
-            //    sshclient.Connect();
-            //    //TODO рабочая директория
-            //    var commandResponse = sshclient.RunCommand("module add slurm\ncd _scratch\ncd collision\nls");
-            //    result = commandResponse.Result;
-            //    var dirItems = result.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries).ToList();
-
-            //    dirExists = dirItems.Contains("base_lomonosov");
-
-            //    using (var sftpclient = new SftpClient(Config.Config.Instace.ClusterHost, Config.Config.Instace.ClusterPort, username, keyFile))
-            //    {
-            //        sftpclient.Connect();
-
-            //        var destinationFolder = modelName;
-
-            //        if (dirExists)
-            //        {
-            //            //var cr = sshclient.RunCommand("scp -r base_lomonosov " + destinationFolder);
-            //            var cr = sshclient.RunCommand("module add slurm\ncd _scratch\ncd collision\nscp -r base_lomonosov " + destinationFolder);
-            //            result = cr.Result;
-
-            //            sftpclient.ChangeDirectory(sftpclient.WorkingDirectory + "/_scratch/collision/" + destinationFolder);
-            //            //sftpclient.DeleteFile(@"init.t3c");
-
-            //            using (var fileStream = new FileStream(uploadfile, FileMode.Open))
-            //            {
-            //                sftpclient.BufferSize = 4 * 1024; // bypass Payload error large files
-            //                sftpclient.UploadFile(fileStream, Path.GetFileName(uploadfile), true);
-            //            }
-
-            //        }
-            //        else
-            //        {
-            //            //TODO копирование с локалки 
-            //        }
-
-            //        //sftpclient.ChangeDirectory(sftpclient.WorkingDirectory + "/_scratch/collision/"+destinationFolder);
-
-            //        //// var listDirectory = client.ListDirectory(workingdirectory);
-
-            //        ////foreach (var fi in listDirectory)
-            //        ////{
-            //        ////    gg += (" - " + fi.Name + "\n");
-            //        ////}
-
-            //        //using (var fileStream = new FileStream(uploadfile, FileMode.Open))
-            //        //{
-            //        //    sftpclient.BufferSize = 4 * 1024; // bypass Payload error large files
-            //        //    sftpclient.UploadFile(fileStream, Path.GetFileName(uploadfile));
-            //        //}
-            //    }
-
-            //}
-
+            
         }
 
         private void LoadTxtSourceButton_OnClick(object sender, RoutedEventArgs e)
@@ -2422,7 +2350,7 @@ namespace I2VISTools
                 return;
             }
 
-            foreach (var file in files.OrderBy(Config.Tools.ExtractNumberFromString ))
+            foreach (var file in files.OrderBy(x=> Config.Tools.ExtractNumberFromString(x.Substring( x.LastIndexOf("\\")))))
             {
                 var cInd = file.LastIndexOf("c", StringComparison.Ordinal);
                 //var templ = file.Substring(0, cInd);
@@ -2450,7 +2378,7 @@ namespace I2VISTools
             DialogResult result = fbd.ShowDialog();
             if (result != System.Windows.Forms.DialogResult.OK) return;
 
-            files = Directory.GetFiles(fbd.SelectedPath).ToList().Where(x => x.EndsWith(".prn")).ToList();
+            files = Directory.GetFiles(fbd.SelectedPath).ToList().Where(x => x.EndsWith(".prn")).OrderBy(x => Config.Tools.ExtractNumberFromString(x.Substring(x.LastIndexOf("\\")))).ToList();
 
             if (files.Count == 0)
             {
@@ -3184,7 +3112,7 @@ namespace I2VISTools
 
             } */
 
-            PrnWorker.ReadBoundaryConditions(@"H:\modelling_results\pz2\p150_l140_c30_m600_v5-1_\voac20.prn");
+            PrnWorker.ReadBoundaryConditions(@"C:\Users\Sergey\Desktop\Новая папка\voac60.prn");
         }
 
         private void SelectOverlayButton_OnClick(object sender, RoutedEventArgs e)

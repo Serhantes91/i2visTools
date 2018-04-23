@@ -678,7 +678,7 @@ namespace I2VISTools.Tools
                         if (ArePrettyEqual(bondv[m1, 0], 3.169E-09) )
                         {
                             fs.Position -= 4;
-                            singleArray = BitConverter.GetBytes(1.769E-09f);
+                            singleArray = BitConverter.GetBytes(6.338E-10f);
                             fs.Write(singleArray, 0, 4);
                         } */
                         

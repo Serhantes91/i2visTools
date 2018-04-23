@@ -74,7 +74,7 @@ namespace I2VISTools.Windows
             var bwork = new BackgroundWorker();
             bwork.DoWork += (o, args) =>
             {
-                var cmds = new List<string> { "cd _scratch/" + Config.Config.Instace.ClusterWorkingDirectory + "/", "ls -l" };
+                var cmds = new List<string> { "cd _scratch/" + Config.Config.Instace.ClusterWorkingDirectory + "/", "ls -la --time-style=full-iso" };
                 var result = ((App)Application.Current).SSHManager.RunCommands(cmds);
 
                 CurrentPath = _initialPath;
@@ -106,22 +106,18 @@ namespace I2VISTools.Windows
             {
                 if (file == @"cat: /etc/banner: No such file or directory") continue; //todo криво, конечно. надо подумать как изменить
 
+                
                 var curFileArray = file.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
                 if (curFileArray.Count() < 9 ) continue;
+                if (curFileArray.Last() == "." || curFileArray.Last() == "..") continue;
                 //10 May 2008 14:32:17 GMT
-                
+
+
+                if (curFileArray.Last() == "base_lomonosov" && _initialPath == CurrentPath) continue; //скрываем базовую папку, ибо нефиг её трогать
+
                 var md = DateTime.Today;
 
-                if (!DateTime.TryParse(String.Format("{0} {1} {2} {3}:00 GMT ", curFileArray[6], curFileArray[5],
-                    DateTime.Now.Year, curFileArray[7]), out md))
-                {
-                    DateTime.TryParse(String.Format("{0} {1} {2} {3}:00 GMT ", curFileArray[6], curFileArray[5],
-                        curFileArray[7], "00"), out md);
-                }
-                else
-                {
-                    if (md > DateTime.Today.AddDays(1)) md = md.AddYears(-1);
-                } ; //todo найти способ получать более детализированное время, даже тех записей, что старше полугода
+                DateTime.TryParse(String.Format("{0} {1}", curFileArray[5], curFileArray[6]), out md);
 
                 var curFileInfo = new ClusterFileInfo { 
                     Type = curFileArray[0], 
@@ -159,7 +155,7 @@ namespace I2VISTools.Windows
                 CurrentPath += currentItem.Name + "/";
             }
 
-            var cmds = new List<string> { "cd " + CurrentPath, "ls -l" };
+            var cmds = new List<string> { "cd " + CurrentPath, "ls -la --time-style=full-iso" };
             var result = ((App)Application.Current).SSHManager.RunCommandsWithReport(cmds);
 
 
@@ -197,7 +193,7 @@ namespace I2VISTools.Windows
 
         private void Refresh()
         {
-            var cmds = new List<string> { "cd " + CurrentPath, "ls -l" };
+            var cmds = new List<string> { "cd " + CurrentPath, "ls -la --time-style=full-iso" };
             var result = ((App)Application.Current).SSHManager.RunCommandsWithReport(cmds);
 
             FillFilesView(result);
@@ -376,7 +372,7 @@ namespace I2VISTools.Windows
                 };
                 renameItem.Click += (o, args) =>
                 {
-                    var mnw = new ModelNameWindow();
+                    var mnw = new ModelNameWindow(fi.Name);
                     if (mnw.ShowDialog() == true)
                     {
                         var name = mnw.OutName;
